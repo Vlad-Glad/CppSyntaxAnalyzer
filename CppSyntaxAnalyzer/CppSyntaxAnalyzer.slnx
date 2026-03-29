@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../CppSyntaxAnalyzer.Tests/CppSyntaxAnalyzer.Tests.csproj" />
+  <Project Path="CppSyntaxAnalyzer.csproj" />
+</Solution>
