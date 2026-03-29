@@ -47,7 +47,7 @@ public class LexerTests
 
     //Complex Assert (lines)
     [Fact]
-    public void TokenizeAll_UnterminatedString_TerunsErrorTokenWithMessage()
+    public void TokenizeAll_UnterminatedString_ReturnsErrorTokenWithMessage()
     {
         var source = "\"unterminated";
         var lexer = new Lexer(source);
@@ -58,5 +58,28 @@ public class LexerTests
         Assert.Equal(TokenKind.Error, errorToken.Kind);
 
         Assert.StartsWith("Unterminated", errorToken.Message);
+    }
+
+    [Fact]
+    public void TokenizeAll_FullLanguageFeatures_IncreasesCoverage()
+    {
+        var source = @"
+            #include <iostream>
+            // Line comment
+            /* Block comment */
+            int hex = 0xFF;
+            float f = 3.14f;
+            char c = 'a';
+            string s = ""test"";
+            string raw = R""(raw string)"";
+            if (hex == 0xFF && f >= 3.0f || !false) { hex++; }
+        ";
+        var lexer = new Lexer(source);
+
+        var tokens = lexer.TokenizeAll();
+
+        Assert.NotEmpty(tokens);
+
+        Assert.DoesNotContain(tokens, t => t.Kind == TokenKind.Error);
     }
 }
