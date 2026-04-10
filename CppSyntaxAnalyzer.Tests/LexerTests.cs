@@ -60,26 +60,27 @@ public class LexerTests
         Assert.StartsWith("Unterminated", errorToken.Message);
     }
 
+    //Exception test
     [Fact]
-    public void TokenizeAll_FullLanguageFeatures_IncreasesCoverage()
+    public void Constructor_NullSource_ThrowsArgumentNullException()
     {
-        var source = @"
-            #include <iostream>
-            // Line comment
-            /* Block comment */
-            int hex = 0xFF;
-            float f = 3.14f;
-            char c = 'a';
-            string s = ""test"";
-            string raw = R""(raw string)"";
-            if (hex == 0xFF && f >= 3.0f || !false) { hex++; }
-        ";
+        var ex = Assert.Throws<ArgumentNullException>(() => new Lexer(null));
+
+        Assert.Contains("Source code cannot be null", ex.Message);
+    }
+
+    [Theory]
+    [InlineData("#include <iostream>\n// Line comment\n/* Block comment */")]
+    [InlineData("int hex = 0xFF; float f = 3.14f; char c = 'a';")]
+    [InlineData("string s = \"test\"; string raw = R\"(raw string)\";")]
+    [InlineData("if (hex == 0xFF && f >= 3.0f || !false) { hex++; }")]
+    public void TokenizeAll_ValidLanguageFeatures_IncreasesCoverageAndGeneratesNoErrors(string source)
+    {
         var lexer = new Lexer(source);
 
         var tokens = lexer.TokenizeAll();
 
         Assert.NotEmpty(tokens);
-
         Assert.DoesNotContain(tokens, t => t.Kind == TokenKind.Error);
     }
 }

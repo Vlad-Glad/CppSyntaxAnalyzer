@@ -36,7 +36,12 @@ public sealed class Lexer
 
     public Lexer(string source)
     {
-        _source = source ?? string.Empty;
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source), "Source code cannot be null");
+        }
+
+        _source = source;
     }
 
     public List<Token> TokenizeAll(bool stopOnError = true)
