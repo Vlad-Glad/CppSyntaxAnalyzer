@@ -9,6 +9,7 @@
 *.user
 *.suo
 *.sln.docstates
+*.md
 
 # NuGet пакети
 packages/
