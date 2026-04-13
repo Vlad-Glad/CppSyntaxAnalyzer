@@ -68,7 +68,7 @@ public class AnalyzerRunnerTests
         mockEnv.Verify(e => e.FileExists(It.IsAny<string>()), Times.Once);
         mockEnv.Verify(e => e.ReadAllText(It.IsAny<string>()), Times.Once);
         mockEnv.Verify(e => e.WriteLine(It.IsAny<string>()), Times.Once);
-        mockEnv.Verify(e => e.WriteError(It.IsAny<string>()), Times.Never); // Переконуємось, що помилок не було
+        mockEnv.Verify(e => e.WriteError(It.IsAny<string>()), Times.Never);
     }
 
     [Fact]
